@@ -29,10 +29,10 @@ SynthDef.new(\static, {
 
 (
 SynthDef.new(\station, {
-	arg source, prox = 0;
+	arg channel, prox = 0;
 	var sig;
 	sig = HPF.ar(
-		source.ar() * prox.lag(0.3), // monter le vol quand on se rapproche
+		AudioIn.ar(channel) * prox.lag(0.3), // monter le vol quand on se rapproche
 		(1 - prox.lag(0.3)) * 10000 // baisser le cutoff quand on se rapproche
 	);
 	Out.ar(0, sig ! 2);
@@ -40,9 +40,9 @@ SynthDef.new(\station, {
 )
 
 (
-~st1 = Synth.new(\station, [\freq, 100]);
-~st2 = Synth.new(\station, [\freq, 200]);
-~st3 = Synth.new(\station, [\freq, 400]);
+~st1 = Synth.new(\station, [\channel, 1]);
+~st2 = Synth.new(\station, [\channel, 2]);
+~st3 = Synth.new(\station, [\channel, 3]);
 ~static = Synth.new(\static, 1);
 
 ~cursor = 0;
